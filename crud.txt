@@ -1,0 +1,178 @@
+---
+> use collections
+switched to db collections
+> db.createCollection("users")
+{ "ok" : 1 }
+> db.users.insertOne({first_name:"anup",last_name:"pandey",age:"26",gender:"male"})
+{
+        "acknowledged" : true,
+        "insertedId" : ObjectId("61436d0191800f927161ddca")
+}
+> db.users.find.pretty()
+uncaught exception: TypeError: db.users.find.pretty is not a function :
+@(shell):1:1
+> db.users.find({}).pretty()
+{
+        "_id" : ObjectId("61436d0191800f927161ddca"),
+        "first_name" : "anup",
+        "last_name" : "pandey",
+        "age" : "26",
+        "gender" : "male"
+}
+> db.users.insertMany([{first_name:"allen", last_name:"dicosta",age:"24",gender:"male"},{first_name:"michael",last_name:"Bevan",age:"29",gender:"male"},{first_name:"ricky",last_name:"pointing",age:"32",gender:"male"}])
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                ObjectId("6143718991800f927161ddcb"),
+                ObjectId("6143718991800f927161ddcc"),
+                ObjectId("6143718991800f927161ddcd")
+        ]
+}
+> db.users.find({}).pretty()
+{
+        "_id" : ObjectId("61436d0191800f927161ddca"),
+        "first_name" : "anup",
+        "last_name" : "pandey",
+        "age" : "26",
+        "gender" : "male"
+}
+{
+        "_id" : ObjectId("6143718991800f927161ddcb"),
+        "first_name" : "allen",
+        "last_name" : "dicosta",
+        "age" : "24",
+        "gender" : "male"
+}
+{
+        "_id" : ObjectId("6143718991800f927161ddcc"),
+        "first_name" : "michael",
+        "last_name" : "Bevan",
+        "age" : "29",
+        "gender" : "male"
+}
+{
+        "_id" : ObjectId("6143718991800f927161ddcd"),
+        "first_name" : "ricky",
+        "last_name" : "pointing",
+        "age" : "32",
+        "gender" : "male"
+}
+> db.users.update({first_name:"ricky"},{$set:{first_name:"ricky charles"}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.users.find({}).pretty()
+{
+        "_id" : ObjectId("61436d0191800f927161ddca"),
+        "first_name" : "anup",
+        "last_name" : "pandey",
+        "age" : "26",
+        "gender" : "male"
+}
+{
+        "_id" : ObjectId("6143718991800f927161ddcb"),
+        "first_name" : "allen",
+        "last_name" : "dicosta",
+        "age" : "24",
+        "gender" : "male"
+}
+{
+        "_id" : ObjectId("6143718991800f927161ddcc"),
+        "first_name" : "michael",
+        "last_name" : "Bevan",
+        "age" : "29",
+        "gender" : "male"
+}
+{
+        "_id" : ObjectId("6143718991800f927161ddcd"),
+        "first_name" : "ricky charles",
+        "last_name" : "pointing",
+        "age" : "32",
+        "gender" : "male"
+}
+> db.users.updateOne({first_name:"anup"},{set:${age:27}})
+uncaught exception: SyntaxError: missing } after property list :
+@(shell):1:45
+> db.users.updateOne({first_name:"anup"},{$set:{age:27}})
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+> db.users.find({first_name:"anup"})
+{ "_id" : ObjectId("61436d0191800f927161ddca"), "first_name" : "anup", "last_name" : "pandey", "age" : 27, "gender" : "male" }
+> db.users.find({first_name:"anup"}).pretty()
+{
+        "_id" : ObjectId("61436d0191800f927161ddca"),
+        "first_name" : "anup",
+        "last_name" : "pandey",
+        "age" : 27,
+        "gender" : "male"
+}
+> db.users.updateMany({gender:"male"},{$set:{group:"A+"}})
+{ "acknowledged" : true, "matchedCount" : 4, "modifiedCount" : 4 }
+> db.users.find({gender:"male"}).pretty()
+{
+        "_id" : ObjectId("61436d0191800f927161ddca"),
+        "first_name" : "anup",
+        "last_name" : "pandey",
+        "age" : 27,
+        "gender" : "male",
+        "group" : "A+"
+}
+{
+        "_id" : ObjectId("6143718991800f927161ddcb"),
+        "first_name" : "allen",
+        "last_name" : "dicosta",
+        "age" : "24",
+        "gender" : "male",
+        "group" : "A+"
+}
+{
+        "_id" : ObjectId("6143718991800f927161ddcc"),
+        "first_name" : "michael",
+        "last_name" : "Bevan",
+        "age" : "29",
+        "gender" : "male",
+        "group" : "A+"
+}
+{
+        "_id" : ObjectId("6143718991800f927161ddcd"),
+        "first_name" : "ricky charles",
+        "last_name" : "pointing",
+        "age" : "32",
+        "gender" : "male",
+        "group" : "A+"
+}
+> db.users.remove({first_name:"allen"},true)
+WriteResult({ "nRemoved" : 1 })
+> db.users.find({gender:"male"}).pretty()
+{
+        "_id" : ObjectId("61436d0191800f927161ddca"),
+        "first_name" : "anup",
+        "last_name" : "pandey",
+        "age" : 27,
+        "gender" : "male",
+        "group" : "A+"
+}
+{
+        "_id" : ObjectId("6143718991800f927161ddcc"),
+        "first_name" : "michael",
+        "last_name" : "Bevan",
+        "age" : "29",
+        "gender" : "male",
+        "group" : "A+"
+}
+{
+        "_id" : ObjectId("6143718991800f927161ddcd"),
+        "first_name" : "ricky charles",
+        "last_name" : "pointing",
+        "age" : "32",
+        "gender" : "male",
+        "group" : "A+"
+}
+> db.users.deleteOne({first_name:"michael"})
+{ "acknowledged" : true, "deletedCount" : 1 }
+> db.users.deleteMany({group="+A"})
+uncaught exception: SyntaxError: missing : after property id :
+@(shell):1:26
+> db.users.deleteMany({group="+A+"})
+uncaught exception: SyntaxError: missing : after property id :
+@(shell):1:26
+> db.users.deleteMany({gender:"male"})
+{ "acknowledged" : true, "deletedCount" : 2 }
+> db.users.find({gender:"male"}).pretty()
